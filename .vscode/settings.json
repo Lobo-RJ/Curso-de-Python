@@ -1,3 +1,26 @@
 {
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "basic",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Local MySQL",
+            "group": "MySQL",
+            "database": "wm",
+            "username": "root",
+            "password": "root.000"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "agenda_db",
+            "group": "py3baa",
+            "database": "\\\\wsl.localhost\\Ubuntu-22.04\\home\\lobo\\cursos\\python\\py3baa\\10_django_agenda\\db.sqlite3"
+        }
+    ]
 }
