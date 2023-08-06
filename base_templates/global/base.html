@@ -14,7 +14,8 @@
 </head>
 
 <body>
-    <h1>base_templates/global/base.html</h1>
+    {% include 'global/partials/navbar.html' %}
+    {% block content %}global/base{% endblock content %}
 </body>
 
 </html>
