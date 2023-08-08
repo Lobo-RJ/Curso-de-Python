@@ -16,7 +16,7 @@ class ContactAdmin(admin.ModelAdmin):
     # campos editáveis na lista
     list_editable = ['show']
     # quantidade de registros mostrados por página
-    list_per_page = 20
+    list_per_page = 10
     # quantidade de registros mostrados ao selecionar 'Mostrar tudo'
     list_max_show_all = 200
 

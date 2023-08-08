@@ -1,21 +1,15 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{ title }}</title>
-
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+    {% include 'global/partials/_head.html' %}
 </head>
 
 <body>
-    {% include 'global/partials/navbar.html' %}
-    {% block content %}global/base{% endblock content %}
+    {% include 'global/partials/_header.html' %}
+    <div class="container mt-3">
+        {% block content %}{% endblock content %}
+    </div>
+    {% include 'global/partials/_footer.html' %}
 </body>
 
 </html>
