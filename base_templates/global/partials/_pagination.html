@@ -1,17 +1,41 @@
-<div class="pagination">
-    <span class="step-links">
+<nav aria-label="Page navigation contacts">
+    <ul class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; Início</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+       <li class="page-item">
+            <a class="page-link" href="?page=1&q={{request.GET.q.strip}}">&laquo; Início</a>
+        </li>
+       <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{request.GET.q.strip}}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo; Início</a>
+        </li>
+       <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+        </li>
         {% endif %}
-
-        <span class="current">
-            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-        </span>
-
+        <li class="page-item">
+            <span class="page-link current">
+                Página {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}
+            </span>
+        </li>
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Fim &raquo;</a>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{request.GET.q.strip}}"> &raquo;</a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&q={{request.GET.q.strip}}">Fim</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#"> &raquo;</a>
+        </li>
+
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Fim</a>
+        </li>
         {% endif %}
-    </span>
-</div>
+    </ul>
+</nav>

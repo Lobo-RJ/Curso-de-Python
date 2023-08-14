@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,9 +80,17 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': os.environ['MYSQL_HOST'],
+        'PORT': os.environ['MYSQL_PORT'],
+        'NAME': os.environ['MYSQL_DATABASE'],
+        'USER': os.environ['MYSQL_USER'],
+        'PASSWORD': os.environ['MYSQL_PASSWORD'],
     }
 }
 
@@ -118,22 +130,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'  # collectstatic
 
 STATICFILES_DIRS = [
     BASE_DIR / 'base_static/'
 ]
 
-STATIC_ROOT = BASE_DIR / 'static'  # collectstatic
+
+# Media files (Upload: Images)
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-try:
-    from project.local_settings import *
-except ImportError:
-    print('Ocorreu falha no import do arquivo project/local_settings.py')
