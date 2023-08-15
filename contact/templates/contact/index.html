@@ -18,7 +18,7 @@
         {% for contact in page_obj %}
             <tr>
             <th scope="row">
-                <a href="{% url 'contact:contact' contact.id %}">
+                <a href="{% url 'contact:contact_detail' contact.id %}">
                     {{ contact.id }}
                 </a>
             </th>

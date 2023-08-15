@@ -25,7 +25,7 @@ def index(request):
     )
 
 
-def contact(request, contact_id):
+def detail(request, contact_id):
     # contact_data = Contact.objects.filter(pk=contact_id).first()
     contact_data = get_object_or_404(Contact, pk=contact_id, show=True)
 
@@ -36,7 +36,7 @@ def contact(request, contact_id):
 
     return render(
         request,
-        'contact/contact.html',
+        'contact/detail.html',
         context
     )
 
@@ -69,5 +69,48 @@ def search(request):
     return render(
         request,
         'contact/index.html',
+        context
+    )
+
+
+def create(request):
+
+    context = {
+        'page_title': 'Cria Contato',
+    }
+
+    return render(
+        request,
+        'contact/create.html',
+        context
+    )
+
+
+def update(request, contact_id):
+    contact_data = get_object_or_404(Contact, pk=contact_id, show=True)
+
+    context = {
+        'page_title': 'Atualiza Contato',
+        'contact': contact_data
+    }
+
+    return render(
+        request,
+        'contact/update.html',
+        context
+    )
+
+
+def delete(request, contact_id):
+    contact_data = get_object_or_404(Contact, pk=contact_id, show=True)
+
+    context = {
+        'page_title': 'Excluir Contato',
+        'contact': contact_data
+    }
+
+    return render(
+        request,
+        'contact/delete.html',
         context
     )
