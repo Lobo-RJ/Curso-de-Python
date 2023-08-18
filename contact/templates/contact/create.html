@@ -1,5 +1,26 @@
 {% extends 'global/base.html' %}
 
 {% block content %}
-    <h2>Create Contact 123</h2>
+<form action="{% url 'contact:contact_create' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="row mb-1">
+        <label for="{{ form.id_for_label }}" class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {{ field.errors }}
+
+        {% if field.help_text %}
+            <p class="">{{field.help_text}}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+    <div class="text-danger">
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <input class="btn btn-primary" type="submit" value="Enviar">
+</form>
 {% endblock content %}

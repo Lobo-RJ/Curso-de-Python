@@ -1,0 +1,51 @@
+{% extends 'global/base.html' %}
+
+{% block content %}
+<form action="{% url 'contact:contact_create' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="mb-3 col-6">
+            <label for="first_name" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="first_name" name="first_name">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="last_name" class="form-label">Sobrenome</label>
+            <input type="text" class="form-control" id="last_name" name="last_name">
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3 col-6">
+            <label for="phone" class="form-label">Telefone</label>
+            <input type="tel" class="form-control" id="phone" name="phone">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control form-control-sm" id="email" name="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">Nós nunca compartilharemos o seu email com ninguém.</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3">
+            <label for="description" class="form-label">Descrição</label>
+            <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3 col-6">
+            <label for="show" class="form-label">Ativo</label>
+            <input type="checkbox" class="form-check-input" id="show" name="show">
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3 col-6">
+            <label for="created_date" class="form-label">Data de Criação</label>
+            <input type="date" readonly class="form-control-plaintext" id="created_date" name="created_date">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="modified_date" class="form-label">Data de Alteração</label>
+            <input type="date" readonly class="form-control-plaintext" id="modified_date" name="modified_date">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+{% endblock content %}
