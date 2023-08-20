@@ -5,33 +5,31 @@ from contact.models import Contact
 
 
 class ContactForm(forms.ModelForm):
-    # primeira forma para alterar um widget
-    first_name = forms.CharField(
-        widget=forms.TextInput(
+    picture = forms.ImageField(
+        widget=forms.FileInput(
             attrs={
-                'class': 'form-control',
+                'accept': 'image/*'
             }
-        ),
-        label='Nome',
+        )
     )
-
-    # segunda forma para alterar um widget
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['last_name'].widget.attrs.update({
-            'class': 'form-control'
-        })
 
     class Meta:
         model = Contact
         fields = (
             'first_name', 'last_name', 'phone', 'email',
-            'description', 'category',
+            'description', 'category', 'picture',
         )
 
         # terceira forma para alterar um widget
         widgets = {
+            'first_name': forms.TextInput(attrs={
+                'input_type': 'text',
+                'class': 'form-control'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'input_type': 'text',
+                'class': 'form-control'
+            }),
             'phone': forms.TextInput(attrs={
                 'input_type': 'text',
                 'class': 'form-control'
@@ -46,7 +44,7 @@ class ContactForm(forms.ModelForm):
             }),
             'category': forms.Select(attrs={
                 'class': 'form-select',
-            })
+            }),
         }
 
     # usado para mais de um campo
