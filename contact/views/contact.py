@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from contact.models import Contact
 from contact.forms import ContactForm
 
@@ -8,7 +9,7 @@ from contact.forms import ContactForm
 def index(request):
     contacts = Contact.objects \
         .filter(show=True) \
-        .order_by('id')
+        .order_by('-id')
 
     paginator = Paginator(contacts, 15)
     page_number = request.GET.get("page")
@@ -27,12 +28,12 @@ def index(request):
 
 
 def detail(request, contact_id):
-    # contact_data = Contact.objects.filter(pk=contact_id).first()
-    contact_data = get_object_or_404(Contact, pk=contact_id, show=True)
+    # contact = Contact.objects.filter(pk=contact_id).first()
+    contact = get_object_or_404(Contact, pk=contact_id, show=True)
 
     context = {
         'page_title': 'Contato',
-        'contact': contact_data
+        'contact': contact
     }
 
     return render(
@@ -75,14 +76,29 @@ def search(request):
 
 
 def create(request):
+    form_action = reverse('contact:create')
+
     if request.method == 'POST':
         form = ContactForm(request.POST)
     else:
         form = ContactForm()
 
+    if form.is_valid():
+        # para salvar os dados do formulário sem alterações
+        contact = form.save()
+
+        # # para salvar os dados do formulário com alterações antes do commit
+        # contact = form.save(commit=False)
+        # contact.show = True
+        # contact.save()
+
+        # após salvar os dados do formulário, redireciona para um formulário limpo (GET)
+        return redirect('contact:update', contact_id=contact.pk)
+
     context = {
         'page_title': 'Cria Contato',
-        'form': form
+        'form': form,
+        'form_action': form_action
     }
 
     return render(
@@ -93,30 +109,51 @@ def create(request):
 
 
 def update(request, contact_id):
-    contact_data = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    form_action = reverse('contact:update', args=(contact_id,))
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST, instance=contact)
+    else:
+        form = ContactForm(instance=contact)
+
+    if form.is_valid():
+        # para salvar os dados do formulário sem alterações adicionais nos campos
+        form.save()
+
+        # após salvar os dados do formulário, redireciona para um formulário limpo (GET)
+        return redirect('contact:list')
 
     context = {
-        'page_title': 'Atualiza Contato',
-        'contact': contact_data
+        'page_title': 'Cria Contato',
+        'form': form,
+        'form_action': form_action
     }
 
     return render(
         request,
-        'contact/update.html',
+        'contact/create.html',
         context
     )
 
 
 def delete(request, contact_id):
-    contact_data = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    confirmation = request.POST.get('confirmation', 'no')
+    print('confirmation = ', confirmation)
+
+    if confirmation == 'yes':
+        contact.delete()
+        return redirect('contact:list')
 
     context = {
-        'page_title': 'Excluir Contato',
-        'contact': contact_data
+        'page_title': 'Cria Contato',
+        'contact': contact,
+        'confirmation': confirmation
     }
 
     return render(
         request,
-        'contact/delete.html',
+        'contact/detail.html',
         context
     )

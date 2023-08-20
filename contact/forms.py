@@ -1,9 +1,6 @@
-from typing import Any, Dict, Mapping, Optional, Type, Union
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.files.base import File
-from django.db.models.base import Model
-from django.forms.utils import ErrorList
+
 from contact.models import Contact
 
 
@@ -30,8 +27,9 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = (
             'first_name', 'last_name', 'phone', 'email',
-            'description', 'show', 'created_date', 'modified_date',
+            'description', 'category',
         )
+
         # terceira forma para alterar um widget
         widgets = {
             'phone': forms.TextInput(attrs={
@@ -46,20 +44,36 @@ class ContactForm(forms.ModelForm):
             'description': forms.Textarea(attrs={
                 'class': 'form-control'
             }),
-            'show': forms.CheckboxInput(),
-            'created_date': forms.DateTimeInput(),
-            'modified_date': forms.DateTimeInput(),
+            'category': forms.Select(attrs={
+                'class': 'form-select',
+            })
         }
 
+    # usado para mais de um campo
     def clean(self):
         cleaned_data = self.cleaned_data
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
 
-        self.add_error(
-            None,
-            ValidationError(
-                'Mensagem de Erro',
-                code='invalid'
-            )
-        )
+        if first_name == last_name:
+            msg = ValidationError(
+                'O conteúdo do campo nome não pode ser igual ao sobrenome', code='invalid')
+            self.add_error('first_name', msg)
+            self.add_error('last_name', msg)
 
         return super().clean()
+
+    # usado para campos individuais
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+
+        if len(first_name) < 3:
+            self.add_error(
+                'first_name',
+                ValidationError(
+                    'O nome deve ter no mínimo 3 caracteres',
+                    code='invalid'
+                )
+            )
+
+        return first_name

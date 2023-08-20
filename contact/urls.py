@@ -6,18 +6,18 @@ app_name = 'contact'
 urlpatterns = [
     # contact SEARCH
     path('search/',
-         views.search, name='contact_search'),
+         views.search, name='search'),
     # contact LIST
     path('',
-         views.index, name='contact_list'),
+         views.index, name='list'),
 
     # contact CRUD
     path('contact/create/',
-         views.create, name='contact_create'),
+         views.create, name='create'),
     path('contact/<int:contact_id>',
-         views.detail, name='contact_detail'),
+         views.detail, name='detail'),
     path('contact/<int:contact_id>/update/',
-         views.update, name='contact_update'),
+         views.update, name='update'),
     path('contact/<int:contact_id>/delete/',
-         views.delete, name='contact_delete'),
+         views.delete, name='delete'),
 ]

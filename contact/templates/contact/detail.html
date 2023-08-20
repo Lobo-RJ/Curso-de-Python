@@ -1,46 +1,60 @@
 {% extends 'global/base.html' %}
 
 {% block content %}
-    <div class="card d-flex p-2" style="width: 50rem;">
-        <img src="#" class="card-img-top" alt="Imagem do Contato">
-        <div class="card-body">
-            <h5 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h5>
-            <hr>
-            <p class="card-text">
-                <b>Id:</b>
-                {{ contact.id }}
-            </p>
-            <p class="card-text">
-                <b>E-mail:</b>
-                {{ contact.email }}
-            </p>
-            <p class="card-text">
-                <b>Telefone:</b>
-                {{ contact.phone }}
-            </p>
-            <hr>
-            <p class="card-text">
-                <b>Descrição:</b>
-                {{ contact.description }}
-            </p>
-            <hr>
-            <p class="card-text">
-                <b>Data de Criação:</b>
-                {{ contact.created_date }}
-            </p>
-            <p class="card-text">
-                <b>Data de Alteração:</b>
-                {{ contact.modified_date }}
-            </p>
-            <p class="card-text">
-                <b>Categoria:</b>
-                {{ contact.category.name }}
-            </p>
-            <p class="card-text">
-                <b>Ativo:</b>
-                {{ contact.show }}
-            </p>
-            <a href="{% url 'contact:contact_list' %}" class="btn btn-primary">Voltar</a>
+<div class="card d-flex p-2" style="width: 50rem;">
+    <img src="#" class="card-img-top" alt="Imagem do Contato">
+    <div class="card-body">
+        <h5 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h5>
+        <hr>
+        <p class="card-text">
+            <b>Id:</b>
+            {{ contact.id }}
+        </p>
+        <p class="card-text">
+            <b>E-mail:</b>
+            {{ contact.email }}
+        </p>
+        <p class="card-text">
+            <b>Telefone:</b>
+            {{ contact.phone }}
+        </p>
+        <hr>
+        <p class="card-text">
+            <b>Descrição:</b>
+            {{ contact.description }}
+        </p>
+        <hr>
+        <p class="card-text">
+            <b>Data de Criação:</b>
+            {{ contact.created_date }}
+        </p>
+        <p class="card-text">
+            <b>Data de Alteração:</b>
+            {{ contact.modified_date }}
+        </p>
+        <p class="card-text">
+            <b>Categoria:</b>
+            {{ contact.category.name }}
+        </p>
+        <p class="card-text">
+            <b>Ativo:</b>
+            {{ contact.show }}
+        </p>
+
+        <div class="d-inline">
+            <a class="btn btn-secondary" href="{% url 'contact:list' %}" role="button">Voltar</a>
+            <a class="btn btn-info" href={% url 'contact:update' contact.id %} role="button">Editar</a>
+
+            <form action="{% url 'contact:delete' contact.id %}" method="POST">
+                {% csrf_token %}
+                {% if confirmation == 'no' %}
+                    <input type="hidden" name="confirmation" value="yes">
+                    <button class="btn btn-danger" type="submit">Confirma Exclusão?</button>
+                {% else %}
+                    <button class="btn btn-danger" type="submit">Excluir</button>
+                {% endif %}
+            </form>
         </div>
     </div>
+</div>
 {% endblock content %}
