@@ -9,26 +9,24 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'contact:list' %}">Home</a>
         </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact:create' %}">Criar Contato</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact:user_update' %}">Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact:logout' %}">Logout</a>
+        </li>
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'contact:login' %}">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'contact:register' %}">Register</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Contatos
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'contact:create' %}">Criar Contato</a></li>
-            <li><a class="dropdown-item" href="{% url 'contact:user_update' %}">Atualizar Usuário</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Excluir Contato</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
+        {% endif %}
       </ul>
       <form class="d-flex" role="search" action="{% url 'contact:search' %}" method="GET">
         <input class="form-control me-2" id="search" name="q" value="{{ request.GET.q.strip }}" type="search" placeholder="Pesquisar..." aria-label="Search">

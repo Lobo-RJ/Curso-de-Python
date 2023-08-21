@@ -19,13 +19,15 @@ django.setup()
 if __name__ == '__main__':
     import faker
 
+    from django.contrib.auth.models import User
     from contact.models import Category, Contact
 
     Contact.objects.all().delete()
     Category.objects.all().delete()
 
     fake = faker.Faker('pt_BR')
-    categories = ['Amigos', 'Família', 'Conhecidos']
+    categories = ['Família', 'Amigos', 'Conhecidos', 'Trabalho']
+    users = list(User.objects.all())
 
     django_categories = [Category(name=name) for name in categories]
 
@@ -42,6 +44,7 @@ if __name__ == '__main__':
         created_date: datetime = fake.date_this_year()
         description = fake.text(max_nb_chars=100)
         category = choice(django_categories)
+        owner = choice(users)
 
         django_contacts.append(
             Contact(
@@ -52,6 +55,7 @@ if __name__ == '__main__':
                 created_date=created_date,
                 description=description,
                 category=category,
+                owner=owner,
             )
         )
 

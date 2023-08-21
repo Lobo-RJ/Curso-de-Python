@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from contact.models import Contact
@@ -29,7 +30,8 @@ def index(request):
 
 def detail(request, contact_id):
     # contact = Contact.objects.filter(pk=contact_id).first()
-    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(
+        Contact, pk=contact_id, show=True)
 
     context = {
         'page_title': 'Contato',
@@ -64,7 +66,7 @@ def search(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'page_title': 'Busca',
+        'page_title': 'Busca Contatos',
         'page_obj': page_obj
     }
 
@@ -75,6 +77,7 @@ def search(request):
     )
 
 
+@login_required(login_url='contact:login')
 def create(request):
     form_action = reverse('contact:create')
 
@@ -84,6 +87,10 @@ def create(request):
         form = ContactForm()
 
     if form.is_valid():
+        # obtém dados do formulário mas não salva
+        contact = form.save(commit=False)
+        contact.owner = request.user
+
         # para salvar os dados do formulário sem alterações
         contact = form.save()
 
@@ -108,8 +115,10 @@ def create(request):
     )
 
 
+@login_required(login_url='contact:login')
 def update(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(
+        Contact, pk=contact_id, show=True, owner=request.user)
     form_action = reverse('contact:update', args=(contact_id,))
 
     if request.method == 'POST':
@@ -137,8 +146,10 @@ def update(request, contact_id):
     )
 
 
+@login_required(login_url='contact:login')
 def delete(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(
+        Contact, pk=contact_id, show=True, owner=request.user)
     confirmation = request.POST.get('confirmation', 'no')
     print('confirmation = ', confirmation)
 

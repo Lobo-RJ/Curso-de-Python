@@ -15,7 +15,8 @@ class ContactForm(forms.ModelForm):
                 'accept': 'image/*',
             }
         ),
-        label='Foto'
+        label='Foto',
+        required=False
     )
 
     class Meta:
@@ -70,11 +71,11 @@ class ContactForm(forms.ModelForm):
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
 
-        if len(first_name) < 3:
+        if len(first_name) < 2:
             self.add_error(
                 'first_name',
                 ValidationError(
-                    'O nome deve ter no mínimo 3 caracteres',
+                    'O nome deve ter no mínimo 2 caracteres',
                     code='invalid'
                 )
             )

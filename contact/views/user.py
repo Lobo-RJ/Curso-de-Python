@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from contact.forms import RegisterForm, RegisterUpdateForm
 
@@ -54,18 +55,20 @@ def login(request):
     )
 
 
+@login_required(login_url='contact:login')
 def logout(request):
     auth.logout(request)
     return redirect('contact:login')
 
 
+@login_required(login_url='contact:login')
 def user_update(request):
-    user = request.user
+    # user = request.user
 
-    if not user.is_authenticated:
-        messages.warning(
-            request, 'É necessário estar logado para atualizar dados do usuário')
-        return redirect('contact:login')
+    # if not user.is_authenticated:
+    #     messages.warning(
+    #         request, 'É necessário estar logado para atualizar dados do usuário')
+    #     return redirect('contact:login')
 
     if request.method == 'POST':
         form = RegisterUpdateForm(data=request.POST, instance=request.user)
