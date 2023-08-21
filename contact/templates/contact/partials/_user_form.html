@@ -1,8 +1,4 @@
-{% extends 'global/base.html' %}
-
-{% block content %}
-<h3>{{ page_title }}</h3>
-<form action="{{ form_action }}" method="POST" enctype="multipart/form-data">
+<form action="{{ form_action }}" method="POST">
     {% csrf_token %}
 
     <!-- exibe os campos do contato -->
@@ -17,13 +13,6 @@
         {% endif %}
 
     </div>
-
-    <!-- exibe a foto do contato -->
-    <div class="mb-3">
-        {% if field.name == 'picture' and field.value.url %}
-        <img src="{{ field.value.url }}" alt="Foto do Contato">
-        {% endif %}
-    </div>
     {% endfor %}
 
     <!-- exibe erros do formulário -->
@@ -35,4 +24,3 @@
 
     <input class="btn btn-primary" type="submit" value="Enviar">
 </form>
-{% endblock content %}

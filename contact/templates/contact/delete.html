@@ -1,9 +1,0 @@
-{% extends 'global/base.html' %}
-
-{% block content %}
-    <h2>Atenção:</h2>
-    <p>Você tem certeza que quer excluir este contato?</p>
-    <p>Id: {{contact.id}} Nome: {{ contact.first_name }} {{ contact.last_name }}</p>
-    <a class="btn btn-secondary" href={% url 'contact:list' %} role="button">Cancelar</a>
-    <a class="btn btn-danger" href={% url 'contact:delete' contact.id %} role="button">Excluir</a>
-{% endblock content %}

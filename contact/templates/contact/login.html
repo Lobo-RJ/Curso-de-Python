@@ -1,0 +1,11 @@
+{% extends 'global/base.html' %}
+
+{% block content %}
+<h3>{{ page_title }}</h3>
+{% if user.is_authenticated %}
+    <p>Você está logado como: {{ user.username }}</p>
+    <p>Clique <a href="{% url 'contact:logout' %}">aqui</a> para sair</p>
+{% else %}
+    {% include 'contact/partials/_user_form.html' %}
+{% endif %}
+{% endblock content %}

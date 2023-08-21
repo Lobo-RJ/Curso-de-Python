@@ -96,7 +96,7 @@ def create(request):
         return redirect('contact:update', contact_id=contact.pk)
 
     context = {
-        'page_title': 'Cria Contato',
+        'page_title': 'Novo Contato',
         'form': form,
         'form_action': form_action
     }
@@ -125,7 +125,7 @@ def update(request, contact_id):
         return redirect('contact:list')
 
     context = {
-        'page_title': 'Cria Contato',
+        'page_title': 'Atualiza Contato',
         'form': form,
         'form_action': form_action
     }
